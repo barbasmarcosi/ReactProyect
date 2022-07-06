@@ -25,9 +25,10 @@ function ProjectBodyGrid(props) {
   return (
     <>
       <tr key={props.id}>
-        <td>{props.id}</td>
+        <td>{props.nroFactura}</td>
         <td>{props.descripcion}</td>
         <td>{props.fechaInicio}</td>
+        <td>{props.monto}</td>
         <td>{props.fechaFin}</td>
         <td>{props.idPersona}</td>
         <td

@@ -25,7 +25,8 @@ function BodyGrid(props) {
   return (
     <>
       <tr key={props.id}>
-        <td>{props.id}</td>
+        {/*<td>{props.id}</td>*/}
+        <td>{props.cuit}</td>
         <td>{props.nombre}</td>
         <td>{props.apellido}</td>
         <td

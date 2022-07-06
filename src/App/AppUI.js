@@ -35,8 +35,8 @@ function AppUI() {
   const personsHeader = [
     {
       id: 1,
-      value: "Id",
-      column: "id",
+      value: "CUIT",
+      column: "cuit",
     },
     {
       id: 2,
@@ -48,13 +48,15 @@ function AppUI() {
       value: "Apellido",
       column: "apellido",
     },
+    
+
   ];
 
   const projectHeader = [
     {
       id: 1,
-      value: "Numero de proyecto",
-      column: "id",
+      value: "Numero de factura",
+      column: "nroFactura",
     },
     {
       id: 2,
@@ -63,18 +65,79 @@ function AppUI() {
     },
     {
       id: 3,
-      value: "Fecha de Inicio",
-      column: "fechaInicio",
+      value: "Fecha de Factura",
+      column: "fechaFactura",
     },
     {
       id: 4,
-      value: "Fecha de Fin",
-      column: "fechaFin",
+      value: "Monto",
+      column: "monto",
     },
     {
       id: 5,
-      value: "Id de Persona",
-      column: "idPersona",
+      value: "Fecha de Ingreso",
+      column: "fechaIngreso",
+    },
+    {
+      id: 6,
+      value: "CUIT de Matriculado",
+      column: "cuit",
+    },
+  ];
+
+  const retencionesHeader = [
+    {
+      id: 1,
+      value: "Porcentaje de Retencion",
+      column: "retencion",
+    },
+    {
+      id: 2,
+      value: "Mes",
+      column: "mes",
+    },
+    {
+      id: 3,
+      value: "Anio",
+      column: "anio",
+    },
+    {
+      id: 4,
+      value: "CUIT de Matriculado",
+      column: "fechaIngreso",
+    },
+    {
+      id: 5,
+      value: "Nombre de Matriculado",
+      column: "nombre",
+    },
+  ];
+
+  const liquidacionesHeader = [
+    {
+      id: 1,
+      value: "Monto del Mes",
+      column: "montoMes",
+    },
+    {
+      id: 2,
+      value: "Monto Retenido",
+      column: "montoRetenido",
+    },
+    {
+      id: 3,
+      value: "Fecha",
+      column: "fecha",
+    },
+    {
+      id: 4,
+      value: "CUIT de Matriculado",
+      column: "fechaIngreso",
+    },
+    {
+      id: 5,
+      value: "Nombre de Matriculado",
+      column: "nombre",
     },
   ];
 
@@ -86,7 +149,7 @@ function AppUI() {
         <>
           <Input search={searchPerson} setSearch={setSearchPerson} />
           <CreatePersonButton setModal={setOpenAddPersonModal}>
-            <AddRoundedIcon />
+            +
           </CreatePersonButton>
           <GridContainer>
             <thead>
@@ -106,6 +169,7 @@ function AppUI() {
                 <BodyGrid
                   key={person.id}
                   id={person.id}
+                  cuit={person.cuit}
                   nombre={person.nombre}
                   apellido={person.apellido}
                   onDelete={() => deletePerson(person.id)}
@@ -119,7 +183,7 @@ function AppUI() {
         <>
           <Input search={searchProject} setSearch={setSearchProject} />
           <CreatePersonButton setModal={setOpenAddPersonModal}>
-            <AddRoundedIcon />
+            +
           </CreatePersonButton>
           <GridContainer>
             <thead>
@@ -139,8 +203,10 @@ function AppUI() {
                 <ProjectBodyGrid
                   key={project.id}
                   id={project.id}
+                  nroFactura={project.nroFactura}
                   descripcion={project.descripcion}
                   fechaInicio={project.fechaInicio}
+                  monto={project.monto}
                   fechaFin={project.fechaFin}
                   idPersona={project.idPersona}
                   onDelete={() => deleteProject(project.id)}
@@ -154,12 +220,12 @@ function AppUI() {
         <>
           <Input search={searchPerson} setSearch={setSearchPerson} />
           <CreatePersonButton setModal={setOpenAddPersonModal}>
-            <AddRoundedIcon />
+            +
           </CreatePersonButton>
           <GridContainer>
             <thead>
               <tr>
-                {personsHeader.map((todo) => (
+                {retencionesHeader.map((todo) => (
                   <HeadGrid
                     value={todo.value}
                     column={todo.column}
@@ -187,12 +253,12 @@ function AppUI() {
         <>
           <Input search={searchPerson} setSearch={setSearchPerson} />
           <CreatePersonButton setModal={setOpenAddPersonModal}>
-            <AddRoundedIcon />
+            +
           </CreatePersonButton>
           <GridContainer>
             <thead>
               <tr>
-                {personsHeader.map((todo) => (
+                {liquidacionesHeader.map((todo) => (
                   <HeadGrid
                     value={todo.value}
                     column={todo.column}

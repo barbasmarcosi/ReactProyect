@@ -116,7 +116,7 @@ function MainProvider(props) {
       return result * sortOrder;
     };
   };
-  if (selectedNav === 1) persons.sort(dynamicSort(`${orderTable}`))
+  if (selectedNav === 1) persons.sort(dynamicSort(`${orderTable}`));
   if (selectedNav === 2) projects.sort(dynamicSort(`${orderTable}`));
 
   const addPerson = (nombre, apellido) => {
@@ -209,36 +209,43 @@ export { MainContext, MainProvider };
 /*localStorage.setItem('PERSONAS', JSON.stringify([
     {
       id: 1,
+      cuit: 20380831652,
       nombre: "Marcos",
       apellido: "Barbas",
     },
     {
       id: 2,
+      cuit: 2358964235,
       nombre: "Juan Pablo",
       apellido: "Perez",
     },
     {
       id: 3,
+      cuit: 1258665475,
       nombre: "Matias",
       apellido: "Silva",
     },
     {
       id: 4,
+      cuit: 1234567890,
       nombre: "Pepe",
       apellido: "Fernandez",
     },
     {
       id: 5,
+      cuit: 1616181618,
       nombre: "Maria",
       apellido: "Torre",
     },
     {
       id: 6,
+      cuit: 7894561237,
       nombre: "Camila",
       apellido: "Lamda",
     },
     {
       id: 7,
+      cuit: 4568791234,
       nombre: "Sofia",
       apellido: "Castro",
     },
@@ -247,85 +254,109 @@ export { MainContext, MainProvider };
   localStorage.setItem('PROYECTOS', JSON.stringify([
     {
       id: 1,
+      nroFactura: 16164681648164,
       descripcion: "Proyecto 1",
       fechaInicio: "11/11/2022",
+      monto: 16646846,
       fechaFin: "13/12/2022",
       idPersona: 1,
     },
     {
       id: 2,
+      nroFactura: 16164681631264,
       descripcion: "Proyecto 2",
       fechaInicio: "11/12/2022",
+      monto: 16646846,
       fechaFin: "17/12/2022",
       idPersona: 1,
     },
     {
       id: 3,
+      nroFactura: 16164682352354,
       descripcion: "Proyecto 3",
       fechaInicio: "07/11/2022",
+      monto: 16646846,
       fechaFin: "07/12/2022",
       idPersona: 3,
     },
     {
       id: 4,
+      nroFactura: 16164681642342,
       descripcion: "Proyecto 4",
       fechaInicio: "04/02/2022",
+      monto: 16646846,
       fechaFin: "13/12/2022",
       idPersona: 4,
     },
     {
       id: 5,
+      nroFactura: 1616464234264,
       descripcion: "Proyecto 5",
       fechaInicio: "11/11/2022",
+      monto: 16646846,
       fechaFin: "13/12/2022",
       idPersona: 1,
     },
     {
       id: 6,
+      nroFactura: 1616463453164,
       descripcion: "Proyecto 6",
       fechaInicio: "11/12/2022",
+      monto: 16646846,
       fechaFin: "17/12/2022",
       idPersona: 7,
     },
     {
       id: 7,
+      nroFactura: 161646816346364,
       descripcion: "Proyecto 7",
       fechaInicio: "07/11/2022",
+      monto: 16646846,
       fechaFin: "07/12/2022",
       idPersona: 6,
     },
     {
       id: 8,
+      nroFactura: 16164681641234,
       descripcion: "Proyecto 8",
       fechaInicio: "04/02/2022",
+      monto: 16646846,
       fechaFin: "13/12/2022",
       idPersona: 3,
     },
     {
       id: 9,
+      nroFactura: 16164681648234,
       descripcion: "Proyecto 9",
       fechaInicio: "11/11/2022",
+      monto: 16646846,
       fechaFin: "13/12/2022",
       idPersona: 2,
     },
     {
       id: 10,
+      nroFactura: 16164681644234,
       descripcion: "Proyecto 10",
       fechaInicio: "11/12/2022",
+      monto: 16646846,
       fechaFin: "17/12/2022",
       idPersona: 5,
     },
     {
       id: 11,
+      nroFactura: 16164481648164,
       descripcion: "Proyecto 11",
       fechaInicio: "07/11/2022",
+      monto: 16646846,
       fechaFin: "07/12/2022",
       idPersona: 7,
     },
     {
       id: 12,
+      nroFactura: 16164681628164,
       descripcion: "Proyecto 12",
       fechaInicio: "04/02/2022",
+      monto: 16646846,
       fechaFin: "13/12/2022",
       idPersona: 7,
     },
