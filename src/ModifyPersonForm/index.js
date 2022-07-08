@@ -2,8 +2,10 @@ import React from "react";
 import { MainContext } from "../MainContext";
 import "./TodoForm.css";
 
-function ModifyPersonForm(props) {
-  const { modifyPerson, setOpenModifyModal, clickId, newPersonName, setNewPersonName, newPersonLastName, setNewPersonLastName } = React.useContext(MainContext);
+function ModifyPersonForm() {
+  const {modifyPerson, setOpenModifyModal, searchedById} = React.useContext(MainContext);
+  const [newPersonName, setNewPersonName] = React.useState(searchedById[0].nombre);
+  const [newPersonLastName, setNewPersonLastName] = React.useState(searchedById[0].apellido);
 
   const onChangeNombre = (event) => {
     setNewPersonName(event.target.value);
@@ -16,8 +18,7 @@ function ModifyPersonForm(props) {
   };
   const onSubmit = (event) => {
     event.preventDefault();
-    let id = clickId-1;
-    modifyPerson(id, newPersonName, newPersonLastName);
+    modifyPerson(searchedById[0].id, newPersonName, newPersonLastName);
     setOpenModifyModal(false);
   };
   return (

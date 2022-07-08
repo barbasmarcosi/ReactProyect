@@ -7,11 +7,13 @@ import { GridContainer } from "../GridContainer";
 import { Input } from "../Input";
 import { CreatePersonButton } from "../CreatePersonButton";
 import { NewPersonForm } from "../NewPersonForm";
+import { NewBillForm } from "../NewBillForm";
 //import { ProyectoBodyGrid } from "../ProyectoBodyGrid";
 import { Header } from "../Header";
 import { NavBar } from "../NavBar";
 import { ProjectBodyGrid } from "../ProjectBodyGrid";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { RetentionBodyGrid } from "../RetentionBodyGrid";
+import { LiquidationBodyGrid } from "../LiquidationBodyGrid";
 function AppUI() {
   const {
     //error,
@@ -31,6 +33,16 @@ function AppUI() {
     persons,
     projects,
     selectedNav,
+    retentions,
+    searchRetention,
+    setSearchRetention,
+    liquidations,
+    searchLiquidation,
+    setSearchLiquidation,
+    deleteRetention,
+    deleteLiquidation,
+    openAddBillModal,
+    setOpenAddBillModal
   } = React.useContext(MainContext);
   const personsHeader = [
     {
@@ -48,8 +60,6 @@ function AppUI() {
       value: "Apellido",
       column: "apellido",
     },
-    
-
   ];
 
   const projectHeader = [
@@ -81,7 +91,7 @@ function AppUI() {
     {
       id: 6,
       value: "CUIT de Matriculado",
-      column: "cuit",
+      column: "cuitMatriculado",
     },
   ];
 
@@ -104,7 +114,7 @@ function AppUI() {
     {
       id: 4,
       value: "CUIT de Matriculado",
-      column: "fechaIngreso",
+      column: "cuitMatriculado",
     },
     {
       id: 5,
@@ -172,6 +182,7 @@ function AppUI() {
                   cuit={person.cuit}
                   nombre={person.nombre}
                   apellido={person.apellido}
+                  estado={person.estado}
                   onDelete={() => deletePerson(person.id)}
                 />
               ))}
@@ -182,7 +193,7 @@ function AppUI() {
       {selectedNav === 2 && (
         <>
           <Input search={searchProject} setSearch={setSearchProject} />
-          <CreatePersonButton setModal={setOpenAddPersonModal}>
+          <CreatePersonButton setModal={setOpenAddBillModal}>
             +
           </CreatePersonButton>
           <GridContainer>
@@ -205,10 +216,10 @@ function AppUI() {
                   id={project.id}
                   nroFactura={project.nroFactura}
                   descripcion={project.descripcion}
-                  fechaInicio={project.fechaInicio}
+                  fechaFactura={project.fechaFactura}
                   monto={project.monto}
-                  fechaFin={project.fechaFin}
-                  idPersona={project.idPersona}
+                  fechaIngreso={project.fechaIngreso}
+                  cuitMatriculado={project.cuitMatriculado}
                   onDelete={() => deleteProject(project.id)}
                 ></ProjectBodyGrid>
               ))}
@@ -218,7 +229,7 @@ function AppUI() {
       )}
       {selectedNav === 3 && (
         <>
-          <Input search={searchPerson} setSearch={setSearchPerson} />
+          <Input search={searchRetention} setSearch={setSearchRetention} />
           <CreatePersonButton setModal={setOpenAddPersonModal}>
             +
           </CreatePersonButton>
@@ -236,14 +247,17 @@ function AppUI() {
               </tr>
             </thead>
             <tbody>
-              {persons.map((todo) => (
-                <BodyGrid
-                  key={todo.id}
-                  id={todo.id}
-                  nombre={todo.nombre}
-                  apellido={todo.apellido}
-                  onDelete={() => deletePerson(todo.id)}
-                ></BodyGrid>
+              {retentions.map((retention) => (
+                <RetentionBodyGrid
+                  key={retention.id}
+                  id={retention.id}
+                  retencion={retention.retencion}
+                  nombre={retention.nombre}
+                  mes={retention.mes}
+                  anio={retention.anio}
+                  cuitMatriculado={retention.cuitMatriculado}
+                  onDelete={() => deleteRetention(retention.id)}
+                ></RetentionBodyGrid>
               ))}
             </tbody>
           </GridContainer>
@@ -251,32 +265,35 @@ function AppUI() {
       )}
       {selectedNav === 4 && (
         <>
-          <Input search={searchPerson} setSearch={setSearchPerson} />
+          <Input search={searchLiquidation} setSearch={setSearchLiquidation} />
           <CreatePersonButton setModal={setOpenAddPersonModal}>
             +
           </CreatePersonButton>
           <GridContainer>
             <thead>
               <tr>
-                {liquidacionesHeader.map((todo) => (
+                {liquidacionesHeader.map((head) => (
                   <HeadGrid
-                    value={todo.value}
-                    column={todo.column}
-                    id={todo.id}
-                    key={todo.id}
+                    value={head.value}
+                    column={head.column}
+                    id={head.id}
+                    key={head.id}
                   />
                 ))}
               </tr>
             </thead>
             <tbody>
-              {persons.map((todo) => (
-                <BodyGrid
-                  key={todo.id}
-                  id={todo.id}
-                  nombre={todo.nombre}
-                  apellido={todo.apellido}
-                  onDelete={() => deletePerson(todo.id)}
-                ></BodyGrid>
+              {liquidations.map((liquidation) => (
+                <LiquidationBodyGrid
+                  key={liquidation.id}
+                  id={liquidation.id}
+                  montoMes={liquidation.montoMes}
+                  montoRetenido={liquidation.montoRetenido}
+                  fecha={liquidation.fecha}
+                  cuit={liquidation.cuit}
+                  nombre={liquidation.nombre}
+                  onDelete={() => deleteLiquidation(liquidation.id)}
+                ></LiquidationBodyGrid>
               ))}
             </tbody>
           </GridContainer>
@@ -288,9 +305,9 @@ function AppUI() {
           <NewPersonForm />
         </AddPersonModal>
       )}
-      {!!openAddPersonModal && (
+      {!!openAddBillModal && (
         <AddPersonModal>
-          <NewPersonForm />
+          <NewBillForm />
         </AddPersonModal>
       )}
 

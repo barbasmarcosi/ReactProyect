@@ -5,8 +5,12 @@ import "./TodoForm.css";
 function NewPersonForm() {
   const [newPersonName, setNewPersonName] = React.useState("");
   const [newPersonLastName, setNewPersonLastName] = React.useState("");
+  const [newPersonCUIT, setNewPersonCUIT] = React.useState("");
   const { addPerson, setOpenAddPersonModal } = React.useContext(MainContext);
 
+  const onChangeCuit = (event) => {
+    setNewPersonCUIT(event.target.value);
+  };
   const onChangeNombre = (event) => {
     setNewPersonName(event.target.value);
   };
@@ -18,13 +22,18 @@ function NewPersonForm() {
   };
   const onSubmit = (event) => {
     event.preventDefault();
-    addPerson(newPersonName, newPersonLastName);
+    addPerson(newPersonCUIT, newPersonName, newPersonLastName);
     setOpenAddPersonModal(false);
   };
 
   return (
     <form onSubmit={onSubmit}>
       <label>Ingrese la nueva persona</label>
+      <textarea
+        value={newPersonCUIT}
+        onChange={onChangeCuit}
+        placeholder="CUIT"
+      />
       <textarea
         value={newPersonName}
         onChange={onChangeNombre}

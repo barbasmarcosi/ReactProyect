@@ -10,45 +10,41 @@ function BodyGrid(props) {
   const {
     openModifyModal,
     setOpenModifyModal,
-    clickId,
     setClickId,
-    setNewPersonName,
-    setNewPersonLastName,
   } = React.useContext(MainContext);
-  const onClickButton = (id, name, lastName) => {
+  const onClickButton = (id) => {
     setClickId(id);
-    setNewPersonName(name);
-    setNewPersonLastName(lastName);
     setOpenModifyModal((prevState) => !prevState);
   };
-
-  return (
-    <>
-      <tr key={props.id}>
-        {/*<td>{props.id}</td>*/}
-        <td>{props.cuit}</td>
-        <td>{props.nombre}</td>
-        <td>{props.apellido}</td>
-        <td
-          className="BodyGrid-button BodyGrid-editButton"
-          onClick={() => onClickButton(props.id, props.nombre, props.apellido)}
-        >
-          <ModeEditOutlineOutlinedIcon />
-        </td>
-        <td
-          className="BodyGrid-button BodyGrid-deleteButton"
-          onClick={props.onDelete}
-        >
-          <DeleteForeverOutlinedIcon />
-        </td>
-      </tr>
-      {!!openModifyModal && (
-        <ModifyPersonModal>
-          <ModifyPersonForm id={clickId} />
-        </ModifyPersonModal>
-      )}
-    </>
-  );
+  console.log(props.estado);
+  if (props.estado === 1) {
+    return (
+      <>
+        <tr key={props.id}>
+          <td>{props.cuit}</td>
+          <td>{props.nombre}</td>
+          <td>{props.apellido}</td>
+          <td
+            className="BodyGrid-button BodyGrid-editButton"
+            onClick={() => onClickButton(props.id)}
+          >
+            <ModeEditOutlineOutlinedIcon />
+          </td>
+          <td
+            className="BodyGrid-button BodyGrid-deleteButton"
+            onClick={props.onDelete}
+          >
+            <DeleteForeverOutlinedIcon />
+          </td>
+        </tr>
+        {!!openModifyModal && (
+          <ModifyPersonModal>
+            <ModifyPersonForm />
+          </ModifyPersonModal>
+        )}
+      </>
+    );
+  }
 }
 
 export { BodyGrid };
