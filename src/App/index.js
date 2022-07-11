@@ -1,7 +1,6 @@
 import React from 'react';
-import { MainProvider } from '../MainContext';
+import { MainProvider } from '../components/generalComponents/MainContext/index';
 import { AppUI } from './AppUI';
-
 
 function App() {
   return (

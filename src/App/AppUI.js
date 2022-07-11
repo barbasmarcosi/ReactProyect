@@ -1,25 +1,25 @@
 import React from "react";
-import { MainContext } from "../MainContext";
-import { AddPersonModal } from "../AddPersonModal";
-import { HeadGrid } from "../HeadGrid";
-import { BodyGrid } from "../BodyGrid";
-import { GridContainer } from "../GridContainer";
-import { Input } from "../Input";
-import { CreatePersonButton } from "../CreatePersonButton";
-import { NewPersonForm } from "../NewPersonForm";
-import { NewBillForm } from "../NewBillForm";
-//import { ProyectoBodyGrid } from "../ProyectoBodyGrid";
-import { Header } from "../Header";
-import { NavBar } from "../NavBar";
-import { ProjectBodyGrid } from "../ProjectBodyGrid";
-import { RetentionBodyGrid } from "../RetentionBodyGrid";
-import { LiquidationBodyGrid } from "../LiquidationBodyGrid";
+import { MainContext } from "../components/generalComponents/MainContext/index";
+import { Modal } from "../components/generalComponents/Modal";
+import { HeadGrid } from "../components/generalComponents/HeadGrid";
+import { PersonBodyGrid } from "../components/personComponents/PersonBodyGrid";
+import { GridContainer } from "../components/generalComponents/GridContainer";
+import { Input } from "../components/generalComponents/Input";
+import { AddButton } from "../components/generalComponents/AddButton";
+import { NewPersonForm } from "../components/personComponents/NewPersonForm";
+import { NewBillForm } from "../components/billComponents/NewBillForm";
+import { NewRetentionForm } from "../components/retentionComponents/NewRetentionForm";
+import { NewLiquidationForm } from "../components/liquidationComponents/NewLiquidationForm";
+import { NewPersonsForm } from "../components/personComponents/NewPersonsForm";
+import { NewRetentionsForm } from "../components/retentionComponents/NewRetentionsForm";
+import { Header } from "../components/generalComponents/Header";
+import { NavBar } from "../components/generalComponents/NavBar";
+import { BillBodyGrid } from "../components/billComponents/BillBodyGrid";
+import { RetentionBodyGrid } from "../components/retentionComponents/RetentionBodyGrid";
+import { LiquidationBodyGrid } from "../components/liquidationComponents/LiquidationBodyGrid";
+import { Loading } from "../components/generalComponents/Loading";
 function AppUI() {
   const {
-    //error,
-    //loading,
-    //searchedTodos,
-    //completeTodo,
     searchPerson,
     setSearchPerson,
     deletePerson,
@@ -28,8 +28,6 @@ function AppUI() {
     setOpenAddPersonModal,
     searchProject,
     setSearchProject,
-    openModifyModal,
-    setOpenModifyModal,
     persons,
     projects,
     selectedNav,
@@ -42,7 +40,16 @@ function AppUI() {
     deleteRetention,
     deleteLiquidation,
     openAddBillModal,
-    setOpenAddBillModal
+    setOpenAddBillModal,
+    openAddRetentionModal,
+    setOpenAddRetentionModal,
+    openAddLiquidationModal,
+    setOpenAddLiquidationModal,
+    openAddMultiplePersonsModal,
+    setOpenAddMultiplePersonsModal,
+    openAddMultipleRetentionsModal,
+    setOpenAddMultipleRetentionsModal,
+    loading,
   } = React.useContext(MainContext);
   const personsHeader = [
     {
@@ -103,21 +110,16 @@ function AppUI() {
     },
     {
       id: 2,
-      value: "Mes",
-      column: "mes",
+      value: "Fecha",
+      column: "fecha",
     },
     {
       id: 3,
-      value: "Anio",
-      column: "anio",
-    },
-    {
-      id: 4,
       value: "CUIT de Matriculado",
       column: "cuitMatriculado",
     },
     {
-      id: 5,
+      id: 4,
       value: "Nombre de Matriculado",
       column: "nombre",
     },
@@ -153,14 +155,18 @@ function AppUI() {
 
   return (
     <React.Fragment>
-      <Header />
-      <NavBar />
+      <Header>
+        <NavBar />
+      </Header>
       {selectedNav === 1 && (
         <>
           <Input search={searchPerson} setSearch={setSearchPerson} />
-          <CreatePersonButton setModal={setOpenAddPersonModal}>
-            +
-          </CreatePersonButton>
+          <AddButton setModal={setOpenAddPersonModal}>
+            Agregar Matriculado
+          </AddButton>
+          <AddButton setModal={setOpenAddMultiplePersonsModal}>
+            Agregar por Excel
+          </AddButton>
           <GridContainer>
             <thead>
               <tr>
@@ -176,7 +182,7 @@ function AppUI() {
             </thead>
             <tbody>
               {persons.map((person) => (
-                <BodyGrid
+                <PersonBodyGrid
                   key={person.id}
                   id={person.id}
                   cuit={person.cuit}
@@ -193,9 +199,7 @@ function AppUI() {
       {selectedNav === 2 && (
         <>
           <Input search={searchProject} setSearch={setSearchProject} />
-          <CreatePersonButton setModal={setOpenAddBillModal}>
-            +
-          </CreatePersonButton>
+          <AddButton setModal={setOpenAddBillModal}>Cargar Factura</AddButton>
           <GridContainer>
             <thead>
               <tr>
@@ -211,17 +215,18 @@ function AppUI() {
             </thead>
             <tbody>
               {projects.map((project) => (
-                <ProjectBodyGrid
+                <BillBodyGrid
                   key={project.id}
                   id={project.id}
                   nroFactura={project.nroFactura}
                   descripcion={project.descripcion}
                   fechaFactura={project.fechaFactura}
                   monto={project.monto}
+                  estado={project.estado}
                   fechaIngreso={project.fechaIngreso}
                   cuitMatriculado={project.cuitMatriculado}
                   onDelete={() => deleteProject(project.id)}
-                ></ProjectBodyGrid>
+                ></BillBodyGrid>
               ))}
             </tbody>
           </GridContainer>
@@ -230,9 +235,12 @@ function AppUI() {
       {selectedNav === 3 && (
         <>
           <Input search={searchRetention} setSearch={setSearchRetention} />
-          <CreatePersonButton setModal={setOpenAddPersonModal}>
-            +
-          </CreatePersonButton>
+          <AddButton setModal={setOpenAddRetentionModal}>
+            Agregar Retencion
+          </AddButton>
+          <AddButton setModal={setOpenAddMultipleRetentionsModal}>
+            Agregar por archivo
+          </AddButton>
           <GridContainer>
             <thead>
               <tr>
@@ -253,8 +261,8 @@ function AppUI() {
                   id={retention.id}
                   retencion={retention.retencion}
                   nombre={retention.nombre}
-                  mes={retention.mes}
-                  anio={retention.anio}
+                  fecha={retention.fecha}
+                  estado={retention.estado}
                   cuitMatriculado={retention.cuitMatriculado}
                   onDelete={() => deleteRetention(retention.id)}
                 ></RetentionBodyGrid>
@@ -266,9 +274,7 @@ function AppUI() {
       {selectedNav === 4 && (
         <>
           <Input search={searchLiquidation} setSearch={setSearchLiquidation} />
-          <CreatePersonButton setModal={setOpenAddPersonModal}>
-            +
-          </CreatePersonButton>
+          <AddButton setModal={setOpenAddLiquidationModal}>Generar Liquidacion</AddButton>
           <GridContainer>
             <thead>
               <tr>
@@ -291,6 +297,7 @@ function AppUI() {
                   montoRetenido={liquidation.montoRetenido}
                   fecha={liquidation.fecha}
                   cuit={liquidation.cuit}
+                  estado={liquidation.estado}
                   nombre={liquidation.nombre}
                   onDelete={() => deleteLiquidation(liquidation.id)}
                 ></LiquidationBodyGrid>
@@ -301,45 +308,36 @@ function AppUI() {
       )}
 
       {!!openAddPersonModal && (
-        <AddPersonModal>
-          <NewPersonForm />
-        </AddPersonModal>
-      )}
-      {!!openAddBillModal && (
-        <AddPersonModal>
-          <NewBillForm />
-        </AddPersonModal>
-      )}
-
-      {/*<TodoCounter />
-
-      <TodoSearch />
-
-      <TodoList>
-        {error && <p>Desespérate, hubo un error...</p>}
-        {loading && <p>Estamos cargando, no desesperes...</p>}
-        {(!loading && !searchedTodos.length) && <p>¡Crea tu primer TODO!</p>}
-        
-        {searchedTodos.map(todo => (
-          <TodoItem
-            key={todo.text}
-            text={todo.text}
-            completed={todo.completed}
-            onComplete={() => completeTodo(todo.text)}
-            onDelete={() => deleteTodo(todo.text)}
-          />
-        ))}
-      </TodoList>
-
-      {!!openModal && (
         <Modal>
-          <TodoForm />
+          <NewPersonForm />
         </Modal>
       )}
-
-      <CreateTodoButton
-        setOpenModal={setOpenModal}
-      />*/}
+      {!!openAddBillModal && (
+        <Modal>
+          <NewBillForm />
+        </Modal>
+      )}
+      {!!openAddRetentionModal && (
+        <Modal>
+          <NewRetentionForm />
+        </Modal>
+      )}
+      {!!openAddLiquidationModal && (
+        <Modal>
+          <NewLiquidationForm />
+        </Modal>
+      )}
+      {!!openAddMultiplePersonsModal && (
+        <Modal>
+          <NewPersonsForm />
+        </Modal>
+      )}
+      {!!openAddMultipleRetentionsModal && (
+        <Modal>
+          <NewRetentionsForm />
+        </Modal>
+      )}
+      {!!loading && <Loading>Esepere por favor...</Loading>}
     </React.Fragment>
   );
 }
