@@ -181,10 +181,12 @@ function MainProvider(props) {
     );
     if (gridIndex !== -1 && persons[gridIndex].estado === 0) {
       persons[gridIndex].estado = 1;
-      alert('Esta persona ya estaba registrada pero dado de baja, ser procedera a darlo de alta');
+      alert(
+        "Esta persona ya estaba registrada pero dada de baja, ser procedera a darlo de alta"
+      );
     } else if (gridIndex !== -1 && persons[gridIndex].estado === 1) {
       persons[gridIndex].estado = 1;
-      alert('Esta persona ya estaba registrada');
+      alert("Esta persona ya estaba registrada");
     } else {
       let person = {
         id: persons.length !== 0 ? persons[persons.length - 1].id + 1 : 1,
@@ -212,11 +214,15 @@ function MainProvider(props) {
       (project) => Number(project.nroFactura) === Number(nroFactura)
     );
     if (gridIndex !== -1 && projects[gridIndex].estado === 0) {
-      alert('Este numero de factura ya estaba cargada pero anulada, sera dada de alta con los datos originales');
+      alert(
+        "Este numero de factura ya estaba cargada pero anulada, sera dada de alta con los datos originales"
+      );
       projects[gridIndex].estado = 1;
     } else if (gridIndex !== -1 && projects[gridIndex].estado === 1) {
-      alert('Este numero de factura ya estaba cargada, modifiquelo desde la tabla');
-    }else {
+      alert(
+        "Este numero de factura ya estaba cargada"
+      );
+    } else {
       let project = {
         id: projects.length !== 0 ? projects[projects.length - 1].id + 1 : 1,
         nroFactura: nroFactura,
@@ -234,17 +240,37 @@ function MainProvider(props) {
   };
 
   const addRetention = (retencion, fecha, cuitMatriculado, nombre) => {
+    let gridIndex = -1;
     retentions.sort(dynamicSort("id"));
-    let retention = {
-      id:
-        retentions.length !== 0 ? retentions[retentions.length - 1].id + 1 : 1,
-      retencion: retencion,
-      fecha: fecha,
-      cuitMatriculado: cuitMatriculado,
-      nombre: nombre,
-      estado: 1,
-    };
-    retentions.push(retention);
+    const retentionDate = new Date(fecha);
+    const todayDate = new Date(Date.now());
+    gridIndex = retentions.findIndex(
+      (retention) =>
+        Number(retention.cuitMatriculado) === Number(cuitMatriculado) &&
+        retentionDate.getFullYear() === todayDate.getFullYear() &&
+        retentionDate.getMonth() === todayDate.getMonth()
+    );
+    if (gridIndex !== -1 && retentions[gridIndex].estado === 0) {
+      alert(
+        "Esta retencion ya estaba cargada pero anulada, sera dada de alta con los datos originales"
+      );
+      retentions[gridIndex].estado = 1;
+    } else if (gridIndex !== -1 && retentions[gridIndex].estado === 1) {
+      alert("Esta retencion ya estaba cargada");
+    } else {
+      let retention = {
+        id:
+          retentions.length !== 0
+            ? retentions[retentions.length - 1].id + 1
+            : 1,
+        retencion: retencion,
+        fecha: fecha,
+        cuitMatriculado: cuitMatriculado,
+        nombre: nombre,
+        estado: 1,
+      };
+      retentions.push(retention);
+    }
     localRetentionStg(retentions);
   };
 
@@ -420,7 +446,7 @@ function MainProvider(props) {
     try {
       const padronAfip = reg(regexAfip, file, 1, 9);
       let flag = true;
-      for (let i = 0; i < retentions.length; i++) {
+      /*for (let i = 0; i < retentions.length; i++) {
         let fechaRetencion = new Date(retentions[i].fecha);
         if (
           fechaRetencion.getMonth() === fechaHoy.getMonth() &&
@@ -429,7 +455,7 @@ function MainProvider(props) {
           flag = false;
           break;
         }
-      }
+      }*/
       if (flag) {
         let originalLength = retentions.length;
         for (let i = 0; i < persons.length; i++) {
